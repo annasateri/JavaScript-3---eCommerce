@@ -10,6 +10,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const loggedIn = useSelector(state => state.userReducer.loggedIn)
     const user = useSelector(state => state.userReducer.oneUser);
+    const totalCartQuantity = useSelector(state => state.cartReducer.totalCartQuantity)
 
     const history = useHistory();
 
@@ -97,6 +98,12 @@ const Navbar = () => {
                 aria-expanded="false"
                 >
                 <i className="fas fa-shopping-bag"></i>
+                {
+                    totalCartQuantity > 0 ? 
+                    <span className="badge rounded-pill badge-notification">{ totalCartQuantity }</span>
+                    :
+                    ''
+                }
                 </span>
                 <ul className="dropdown-menu dropdown-menu-end shopping-cart" aria-labelledby="navbarDropdownMenuLink">
                     <ShoppingCart />

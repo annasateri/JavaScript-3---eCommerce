@@ -15,10 +15,10 @@ const CartItem = ({product}) => {
 
       <tr>
       <th scope="row">
-      <img src={ product.img } alt="..." class="img-fluid z-depth-0 image-width-cartItem" />
+      <img src={ product.img } alt="..." className="img-fluid z-depth-0 image-width-cartItem" />
       </th>
       <td>
-        <p class="text-muted">{ product.title }</p>
+        <p className="text-muted">{ product.title }</p>
       </td>
       <td>{ product.description }</td>
       <td>{ product.quantity }</td>

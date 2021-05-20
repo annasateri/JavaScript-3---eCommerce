@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { getOneUser, setUser, deleteUser, updateUser } from '../store/actions/userActions';
@@ -9,28 +9,24 @@ const UserDetails = () => {
 
     const [edit, setEdit] = useState(false)
 
-    const handleFirstName = (e) => {
-        setValue({...value, firstName: e.target.value})
-    }
-    const handleLastName = (e) => {
-        setValue({...value, lastName: e.target.value})
-    }
-    const handleEmail = (e) => {
-        setValue({...value, email: e.target.value})
-    }
+    let userFirstName = useRef()
+    let userLastName = useRef()
+    let userEmail = useRef()
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (user) => {
 
         let updatedUser = {
             _id: user._id,
-            firstName: value.firstName,
-            lastName: value.lastName,
-            email: value.email
+            // firstName = Om ref-value finns så använder den värdet man har skrivit in. Annars används det befintliga värdet som användaren redan har. 
+            firstName: userFirstName.current.value ? userFirstName.current.value : user.firstName,
+            lastName: userLastName.current.value ? userLastName.current.value : user.lastName,
+            email: userEmail.current.value ? userEmail.current.value : user.email
         }
 
         dispatch(updateUser(updatedUser));
+        console.log(updatedUser)
         setEdit(false)
+        
       };
 
     const history = useHistory();
@@ -53,17 +49,11 @@ const UserDetails = () => {
 
         useEffect(() => {
             dispatch(getOneUser(id))
-           
             return () => {
                 dispatch(setUser(null))
             }
+            
         }, [dispatch, id])
-
-        const [value, setValue] = useState({
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email
-        })
 
 
     return (
@@ -75,53 +65,70 @@ const UserDetails = () => {
 
                 <div>
                     <div>
-                    <h3 className="mt-5">Customer information</h3>
+                    <h3 className="mt-5 mb-5">Customer information</h3>
                     
                     <div>
                     {
                         edit ?
                         <div>
-                            <div className="form-input mb-3 mt-4 col-5">
-                                <b>Email:</b>
-                                <input type="text" className="form-control" onChange={handleFirstName} value={ value.email } />
-                            </div>
-                            <div className="form-input mb-3 col-5">
-                                <b>First name:</b>
-                                <input type="text" className="form-control" onChange={handleLastName} value={ value.firstName } />
-                            </div>
-                            <div className="form-input mb-3 col-5">
-                                <b>Last name:</b>
-                                <input type="text" className="form-control" onChange={handleEmail} value={ value.lastName } />
-                            </div>
+                            <table className="table">
+                            <thead>
+                                <tr>
+                                <th scope="col"><i className="fas fa-gem"></i></th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Firstname</th>
+                                <th scope="col">Lastname</th>
+                                <th scope="col">User ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                <th scope="row"><i className="fas fa-gem"></i></th>
+                                <td><input type="text" className="form-control" ref={userEmail} placeholder={ user.email } /></td>
+                                <td><input type="text" className="form-control" ref={userFirstName} placeholder={ user.firstName } /></td>
+                                <td><input type="text" className="form-control" ref={userLastName} placeholder={ user.lastName } /></td>
+                                <td>{ user._id }</td>
+                                </tr>
+                            </tbody>
+                            </table>
+                            <p className="mt-5">When you save the new information the previous information can not be restored.</p>
                         </div>
+
                         :
+
                         <div>
-                            <div className="form-input mb-3 mt-4 col-5">
-                                <b>Email:</b>
-                                <p>{ user.email }</p>
-                            </div>
-                            <div className="form-input mb-3 col-5">
-                                <b>First name:</b>
-                                <p>{ user.firstName }</p>
-                            </div>
-                            <div className="form-input mb-3 col-5">
-                                <b>Last name:</b>
-                                <p>{ user.lastName }</p>
-                            </div>
-                            <div className="form-input mb-3 col-5">
-                                <b>User ID:</b>
-                                <p>{ user._id }</p>
-                            </div>
+                            <table className="table">
+                            <thead>
+                                <tr>
+                                <th scope="col"><i className="fas fa-gem"></i></th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Firstname</th>
+                                <th scope="col">Lastname</th>
+                                <th scope="col">User ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                <th scope="row"><i className="fas fa-gem"></i></th>
+                                <td>{ user.email }</td>
+                                <td>{ user.firstName }</td>
+                                <td>{ user.lastName }</td>
+                                <td>{ user._id }</td>
+                                </tr>
+
+                            </tbody>
+                            </table>
+                            <p className="mt-5">Edit user information allows the admin to update/modify some information in customer accounts such as email address, firstname and lastname.<br/>It may not provide access for modifying users password.</p>
                         </div>
                     }
                     </div>
 
-                        <div className="order-btns d-flex">
-                            <button className="btn me-2" onClick={() => toggleEdit()}>{edit ? 'Cancel' : 'Edit'}</button>
+                        <div className="d-flex">
+                            <button className="btn-admin me-2" onClick={() => toggleEdit()}>{edit ? 'Cancel' : 'Edit'}</button>
                             {
                                 edit ?
                                 <div className="d-flex">
-                                    <button className="btn me-2" onClick={handleSubmit}>Save</button>
+                                    <button className="btn-admin me-2" onClick={() => handleSubmit(user)}>Save</button>
                                     <button className="btn-admin" onClick={() => deleteOneUser(user._id)}><i className="fas fa-trash"></i></button>
                                 </div>
                                 :

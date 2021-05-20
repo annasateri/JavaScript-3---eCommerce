@@ -22,6 +22,7 @@ export const login = (user) => {
             if(res.status === 200) {
                 localStorage.setItem('token', res.data.token)
                 dispatch(checkUser(true))
+                dispatch(check())
             }
         })
         .catch(err => console.log(err))
@@ -31,8 +32,7 @@ export const login = (user) => {
 export const logout = () => {
     return dispatch => {
         localStorage.removeItem('token')
-        // dispatch(user(null))
-        // dispatch(checkUser(false))
+        dispatch(check())
     }
 }
 
@@ -110,5 +110,6 @@ export const updateUser = (user) => {
     
     await axios.patch('http://localhost:9999/api/users/' + user._id, update)
     console.log('user updated successfully')
+    dispatch(getOneUser(user._id))
   }
 }

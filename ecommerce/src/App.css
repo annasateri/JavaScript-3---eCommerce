@@ -163,29 +163,21 @@ a:hover {
 }
 .about-us-logo, .logo-ordercomp,
 .thankYou {
-  width: 60%;
+  width: 80%;
 }
 .order-completed .container {
   display: flex;
   padding: 3rem;
-  width: 60%;
-}
-.title-ordercomp {
-  font-size: 25pt;
+  width: 75%;
 }
 .orderimgcompleted {
   width: 100%;
-}
-.order-btns .btn {
-  padding: 10px 25px;
-}
-.order-btns .fas {
-  color: #000;
 }
 .btn-admin {
   border-radius: 8px;
   padding: 5px 10px;
   border: none;
+  font-weight: 500;
 }
 .one-order .fas {
   color: #fff;
@@ -195,4 +187,8 @@ a:hover {
 }
 .admin-image {
   width: 20%;
+}
+.badge {
+  background-color: #ebc36d;
+  color: #000;
 }

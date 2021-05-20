@@ -10,7 +10,7 @@ const OrderCompleted = () => {
         <div className="container shadow-2 text-center mt-5">
             <div>
                 <img className="thankYou" src={thankYou} alt="..." />
-                <p className="title-ordercomp">FOR YOUR ORDER<br/>AT</p>
+                <h4>FOR YOUR ORDER<br/>AT</h4>
                 <img className="logo-ordercomp mb-4" src={logoFrontPage} alt="..." />
                 <p>We hope you enjoy your purchase!<br/>You will soon receive an<br/>order confirmation sent to your email.<br/>Get <b>15% OFF</b> your next order, use code: <b>THANKYOU15</b></p>
                 <Link className="links" to={`/`}>www.jewelryofsweden.com</Link>

@@ -25,7 +25,7 @@ const ProductDetails = () => {
         <div className="container product-details">
             { product ?
             <div className="card border-0 shadow-0">
-                <div className="bg-image hover-zoom">
+                <div className="bg-image hover-zoom text-center">
                     <img src={ product.img } alt="..." className="img-fluid z-depth-0"/>
                 </div>
                 <div className="card-body shadow-1 text-center">
